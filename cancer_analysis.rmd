@@ -1,0 +1,157 @@
+---
+title: "Cancer Incidence Geographic Distribution Analysis"
+author: "Olisaemeka Charles Okolo"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    toc: true
+    toc_float: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+## Overview
+
+This report analyzes state-level cancer incidence rates across the United States
+using publicly available CDC WONDER registry data (2018–2022). All rates are
+age-adjusted per 100,000 population using the 2000 U.S. Standard Million,
+enabling fair cross-state comparisons independent of age distribution differences.
+
+## Load and Clean Data
+
+```{r load-data}
+library(tidyverse)
+library(maps)
+library(viridis)
+library(scales)
+library(knitr)
+
+raw <- read_tsv(
+  "US Puerto Rico Cancer Statistics 1999-2022.tsv",
+  col_types = cols(.default = "c"),
+  na = c("", "NA", "Suppressed", "Missing", "Not Applicable")
+)
+
+cancer <- raw %>%
+  filter(!is.na(States), States != "Total") %>%
+  select(
+    state      = States,
+    count      = Count,
+    population = Population,
+    rate       = `Age-Adjusted Rate`
+  ) %>%
+  mutate(
+    rate       = as.numeric(rate),
+    count      = as.numeric(gsub(",", "", count)),
+    population = as.numeric(gsub(",", "", population)),
+    state_lower = tolower(state)
+  ) %>%
+  filter(!is.na(rate))
+
+kable(
+  head(cancer %>% select(state, count, population, rate), 10),
+  caption = "Sample: cleaned CDC cancer incidence data (2018–2022)",
+  col.names = c("State", "Case count", "Population", "Age-adjusted rate")
+)
+```
+
+## Geographic Distribution
+
+```{r choropleth, fig.width=10, fig.height=6}
+us_states <- map_data("state")
+
+map_joined <- us_states %>%
+  left_join(cancer, by = c("region" = "state_lower"))
+
+ggplot(map_joined, aes(x = long, y = lat, group = group, fill = rate)) +
+  geom_polygon(color = "white", linewidth = 0.3) +
+  scale_fill_viridis(
+    option = "plasma",
+    name   = "Age-adjusted rate\nper 100,000",
+    labels = comma
+  ) +
+  coord_fixed(1.3) +
+  theme_void() +
+  theme(
+    plot.title    = element_text(size = 16, face = "bold", margin = margin(b = 8)),
+    plot.subtitle = element_text(size = 12, color = "gray40", margin = margin(b = 16)),
+    legend.position = "right"
+  ) +
+  labs(
+    title    = "Cancer Incidence Rates by State",
+    subtitle = "Age-adjusted rates per 100,000 population, 2018–2022 · CDC WONDER"
+  )
+```
+
+## Top and Bottom 10 States
+
+```{r bar-charts, fig.width=11, fig.height=5}
+library(gridExtra)
+
+top10 <- cancer %>% slice_max(rate, n = 10) %>% mutate(state = fct_reorder(state, rate))
+bot10 <- cancer %>% slice_min(rate, n = 10) %>% mutate(state = fct_reorder(state, rate))
+
+p1 <- ggplot(top10, aes(x = state, y = rate, fill = rate)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = rate), hjust = -0.2, size = 3, color = "gray30") +
+  scale_fill_viridis(option = "plasma") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "10 highest incidence states", x = NULL, y = "Age-adjusted rate per 100,000")
+
+p2 <- ggplot(bot10, aes(x = state, y = rate, fill = rate)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = rate), hjust = -0.2, size = 3, color = "gray30") +
+  scale_fill_viridis(option = "plasma") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.15))) +
+  coord_flip() +
+  theme_minimal() +
+  labs(title = "10 lowest incidence states", x = NULL, y = "Age-adjusted rate per 100,000")
+
+grid.arrange(p1, p2, ncol = 2)
+```
+
+## Summary Statistics
+
+```{r summary}
+cancer %>%
+  summarise(
+    `Mean rate`       = round(mean(rate, na.rm = TRUE), 1),
+    `Median rate`     = round(median(rate, na.rm = TRUE), 1),
+    `Highest rate`    = round(max(rate, na.rm = TRUE), 1),
+    `Lowest rate`     = round(min(rate, na.rm = TRUE), 1),
+    `Std deviation`   = round(sd(rate, na.rm = TRUE), 1),
+    `States included` = n()
+  ) %>%
+  kable(caption = "National summary — age-adjusted cancer incidence rates per 100,000 (2018–2022)")
+```
+
+## Key Findings
+
+```{r findings, results='asis'}
+highest_state <- cancer %>% slice_max(rate, n = 1) %>% pull(state)
+lowest_state  <- cancer %>% slice_min(rate, n = 1) %>% pull(state)
+highest_rate  <- cancer %>% slice_max(rate, n = 1) %>% pull(rate)
+lowest_rate   <- cancer %>% slice_min(rate, n = 1) %>% pull(rate)
+gap           <- round(highest_rate - lowest_rate, 1)
+nat_mean      <- round(mean(cancer$rate), 1)
+
+cat(glue::glue("
+- **{highest_state}** had the highest age-adjusted incidence rate at **{highest_rate}** per 100,000
+- **{lowest_state}** had the lowest at **{lowest_rate}** per 100,000  
+- The gap between highest and lowest states was **{gap}** per 100,000, highlighting significant geographic disparity in cancer burden
+- The national age-adjusted mean was **{nat_mean}** per 100,000
+"))
+```
+
+## Data Source
+
+Centers for Disease Control and Prevention. *United States and Puerto Rico Cancer
+Statistics, 1999–2022 Incidence*. CDC WONDER Online Database. U.S. Department of
+Health and Human Services; 2025 release.
+Retrieved from https://wonder.cdc.gov/cancer-v2022.html

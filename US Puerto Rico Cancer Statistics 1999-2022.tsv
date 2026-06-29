@@ -1,0 +1,84 @@
+"Notes"	"States"	"States Code"	Count	Population	Age-Adjusted Rate
+	"Alabama"	"01"	125179	25135074	391.6
+	"Alaska"	"02"	14851	3673796	388.1
+	"Arizona"	"04"	161980	35877179	351.7
+	"Arkansas"	"05"	81678	15090090	430.6
+	"California"	"06"	813976	196769800	361.3
+	"Colorado"	"08"	115910	28850840	354.0
+	"Connecticut"	"09"	101655	18008170	427.7
+	"Delaware"	"10"	29346	4968573	427.3
+	"District of Columbia"	"11"	12746	3383805	377.3
+	"Florida"	"12"	637084	108155714	408.5
+	"Georgia"	"13"	257473	53613217	422.9
+	"Hawaii"	"15"	35494	7254699	366.9
+	"Idaho"	"16"	44261	9269459	402.7
+	"Illinois"	"17"	326928	63802204	418.9
+	"Indiana"	"18"	170026	33921433	413.7
+	"Iowa"	"19"	90496	15943543	448.4
+	"Kansas"	"20"	73325	14677851	416.9
+	"Kentucky"	"21"	131540	22513176	467.2
+	"Louisiana"	"22"	123268	23201037	440.2
+	"Maine"	"23"	44208	6841913	431.9
+	"Maryland"	"24"	153469	30814076	405.5
+	"Massachusetts"	"25"	174047	34987281	389.2
+	"Michigan"	"26"	265518	50290837	404.8
+	"Minnesota"	"27"	152089	28479831	435.6
+	"Mississippi"	"28"	78519	14790164	429.7
+	"Missouri"	"29"	164102	30772856	420.1
+	"Montana"	"30"	29941	5458491	406.4
+	"Nebraska"	"31"	47146	9796435	406.2
+	"Nevada"	"32"	65449	15520381	348.0
+	"New Hampshire"	"33"	40983	6901762	424.5
+	"New Jersey"	"34"	248187	46279117	425.8
+	"New Mexico"	"35"	45311	10562025	333.2
+	"New York"	"36"	528726	100078183	417.7
+	"North Carolina"	"37"	280213	52360054	431.1
+	"North Dakota"	"38"	18473	3884117	410.4
+	"Ohio"	"39"	324527	58873450	427.9
+	"Oklahoma"	"40"	96594	19847276	411.1
+	"Oregon"	"41"	103564	21140116	377.3
+	"Pennsylvania"	"42"	358575	64951981	409.2
+	"Rhode Island"	"44"	29371	5473596	407.6
+	"South Carolina"	"45"	133366	25707347	395.8
+	"South Dakota"	"46"	23179	4451434	421.4
+	"Tennessee"	"47"	176607	34606397	410.0
+	"Texas"	"48"	582403	146188560	383.9
+	"Utah"	"49"	56414	16418003	378.7
+	"Vermont"	"50"	18730	3219627	408.0
+	"Virginia"	"51"	196882	43116715	375.6
+	"Washington"	"53"	179646	38436991	393.0
+	"West Virginia"	"54"	57083	8961713	449.2
+	"Wisconsin"	"55"	162277	29405404	424.8
+	"Wyoming"	"56"	13375	2888902	365.1
+"Total"			8196190	1655614695	401.9
+"---"
+"Dataset: United States and Puerto Rico Cancer Statistics, 1999-2022 Incidence"
+"Query Parameters:"
+"Leading Cancer Sites: All Leading Invasive Cancer Sites"
+"Year: 2018; 2019; 2020; 2021; 2022"
+"Group By: States"
+"Show Totals: True"
+"Show Zero Values: False"
+"Show Suppressed: False"
+"Calculate Rates Per: 100,000"
+"Standard Population: 2000 U.S. Std. Million"
+"---"
+"Help: See http://wonder.cdc.gov/wonder/help/cancer-v2022.html for more information."
+"---"
+"Query Date: Jun 29, 2026 10:09:16 PM"
+"---"
+"Suggested Citation: United States Cancer Statistics - Incidence: 1999 - 2022, WONDER Online Database. United States Department"
+"of Health and Human Services, Centers for Disease Control and Prevention and National Cancer Institute; 2024 submission; 2025"
+"release. Accessed at http://wonder.cdc.gov/cancer-v2022.html on Jun 29, 2026 10:09:16 PM"
+"---"
+Caveats:
+"1. These states are missing data for the indicated year: Mississippi 1999-2002; South Dakota 1999-2000."
+"2. Data are from selected statewide and metropolitan area cancer registries that meet data quality criteria. Incidence data"
+"shown for the United States are diagnoses and populations from included registries only."
+"3. Information on primary site, behavior, and histology was coded according to the International Classification of Diseases for"
+"Oncology, Third Edition (ICD-O-3) and categorized according to the revised SEER recodes dated March 1, 2018, which define"
+"standard groupings of primary cancer sites."
+"4. For the 2005 year, the Census Bureau estimates that 203,937 persons were displaced from Alabama, Louisiana, Mississippi and"
+"Texas due to Hurricanes Katrina and Rita. CDC WONDER does not include the displaced persons in the 2005 population counts for"
+"these states, nor are these counts included in the summary populations for the affected division, regions or national"
+"population. However, the USCS web site does include these displaced persons in the national population figures for 2005."
